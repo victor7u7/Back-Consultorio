@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-cvquhob^9z2*k04^*#)@m#pq6kps1oe#2n9%db^&nx^1bq7@fd
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:5500/index.html"]
+CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:5173"]
 CORS_ORIGIN_ALLOW_ALL = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

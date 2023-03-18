@@ -60,9 +60,7 @@ class CrearPaciente(View):
             from_email = settings.EMAIL_HOST_USER
             recipient_list = [datos["email"]]
             send_mail(subject, message, from_email, recipient_list)
-            
-    
-                        
+
             return HttpResponse("creado con exito",status=200)
         except IntegrityError:
             return HttpResponse("error",status=400)
