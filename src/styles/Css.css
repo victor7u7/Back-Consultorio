@@ -1,0 +1,381 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.input {
+  height: 30px;
+}
+.form {
+  margin: auto;
+}
+.titulo {
+  font-size: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: cursive;
+  text-align: justify;
+  /* margin-top: 60%; */
+  padding: 0;
+  padding-top: 60px;
+  margin-top: 0px;
+  color: black;
+}
+#ubicacion {
+  padding-top: 65px;
+}
+#inicio {
+  /* margin-top: 10%; */
+  /* background-color: #2c3e50; */
+  width: 100%;
+}
+#servicios {
+  padding-top: 65px;
+}
+/* ventana modal */
+.modal-formulario {
+  text-transform: none;
+}
+/* boton de ventana Modal */
+.nav-Button {
+  border-style: none;
+  background: #46a0f5;
+  font-size: 18px;
+  color: white;
+  text-transform: uppercase;
+  width: max-content;
+  cursor: pointer;
+  margin-top: -5px;
+}
+.encabezado {
+  display: flex;
+}
+.text-Cita {
+  text-align: center;
+  margin: auto;
+}
+.btn-cerrar-modal {
+  display: flex;
+  font-size: 18px;
+  color: white;
+  background: #ff0000;
+  border-style: none;
+  padding: 5px 12px;
+  border-radius: 7px;
+  cursor: pointer;
+  /* align-items: center;
+  justify-content:center;
+  margin: auto; */
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+dialog {
+  /* max-width: 80%; */
+  /* max-height: 80%; */
+  padding: 0px 10px;
+  /* border: 5px solid #42aecf; */
+
+  /* background-color: #330033; */
+  /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1000' height='1000' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23404' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538 390 382 539 269 769 229 577.5 41.5 370 105 295 -36 126.5 79.5 237 261 102 382 40 599 -69 737 127 880'/%3E%3Cpath d='M520-140L578.5 42.5 731-63M603 493L539 269 237 261 370 105M902 382L539 269M390 382L102 382'/%3E%3Cpath d='M-222 42L126.5 79.5 370 105 539 269 577.5 41.5 927 80 769 229 902 382 603 493 731 737M295-36L577.5 41.5M578 842L295 764M40-201L127 80M102 382L-261 269'/%3E%3C/g%3E%3Cg fill='%23505'%3E%3Ccircle cx='769' cy='229' r='5'/%3E%3Ccircle cx='539' cy='269' r='5'/%3E%3Ccircle cx='603' cy='493' r='5'/%3E%3Ccircle cx='731' cy='737' r='5'/%3E%3Ccircle cx='520' cy='660' r='5'/%3E%3Ccircle cx='309' cy='538' r='5'/%3E%3Ccircle cx='295' cy='764' r='5'/%3E%3Ccircle cx='40' cy='599' r='5'/%3E%3Ccircle cx='102' cy='382' r='5'/%3E%3Ccircle cx='127' cy='80' r='5'/%3E%3Ccircle cx='370' cy='105' r='5'/%3E%3Ccircle cx='578' cy='42' r='5'/%3E%3Ccircle cx='237' cy='261' r='5'/%3E%3Ccircle cx='390' cy='382' r='5'/%3E%3C/g%3E%3C/svg%3E"); */
+
+  margin: auto;
+  /* width: 100%; */
+  /* height: 100%; */
+  border-radius: 45px;
+}
+
+dialog h2 {
+  color: white;
+  text-align: center;
+  font-size: 30px;
+  font-family: "Poppins", sans-serif;
+  margin-top: 25px;
+}
+dialog p {
+  font-size: 17px;
+  font-family: "Poppins", sans-serif;
+  color: white;
+  text-align: center;
+  margin-top: 25px;
+}
+.modal-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  border-radius: 30px;
+}
+
+dialog::backdrop {
+  background: rgba(31, 31, 31, 0.9);
+}
+
+/* cartas */
+
+.imgEstetica {
+  background-image: url(consultorioFotos/estetica.jpg);
+}
+.imgProtesis {
+  background-image: url(consultorioFotos/protesis.jpg);
+}
+.imgExodoncias {
+  background-image: url(consultorioFotos/exodoncias.jpg);
+}
+.imgOrtodoncia {
+  background-image: url(consultorioFotos/ortodoncia.jpg);
+}
+.imgLimpiezaB {
+  background-image: url(consultorioFotos/limpieza.jpg);
+}
+
+.container-card {
+  max-width: 1100px;
+  margin: auto;
+  margin-top: 50px;
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.card-father {
+  margin: 20px;
+  perspective: 1000px;
+}
+.card-father:hover .card {
+  transform: rotateY(180deg);
+}
+.card {
+  width: 300px;
+  height: 380px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: all 600ms;
+}
+.card-enfrente,
+.card-atras {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  border-radius: 30px;
+}
+.card-atras {
+  transform: rotateY(180deg);
+  background: #61abf0;
+}
+.card-enfrente {
+  background-size: cover;
+  background-position: center;
+}
+.cuerpo-carta-enfrente {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.911);
+  transform: translateZ(60px);
+  font-size: 200%;
+  font-weight: bold;
+}
+.bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgb(0, 0, 0, 0.4);
+  border-radius: 40px;
+}
+.cuerpo-carta-atras {
+  padding: 40px;
+  text-align: center;
+  transform: translateZ(60px);
+  color: black;
+  font-size: 200%;
+  font-weight: bold;
+}
+.cuerpo-carta-atras p {
+  margin-top: 30px;
+  font-size: 18px;
+  color: black;
+}
+.cuerpo-carta-atras input {
+  padding: 10px 40px;
+  margin-top: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  color: #fff;
+  background: #83c5f7a9;
+  box-shadow: 1px 1px 30px -5px #83c5f7a9;
+  border-radius: 10px;
+  transition: box-shadow 600ms;
+}
+.cuerpo-carta-atras input:hover {
+  box-shadow: 1px 1px 30px -5px #83c5f7a9;
+}
+/* carrusel con swiper */
+
+/* .nav-toggle:focus:not(:focus-visible) */
+.swiper-hero {
+  width: 800px;
+  height: 500px;
+}
+
+.swiper-hero .swiper-slide {
+  width: 250px;
+}
+
+.swiper-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 40px;
+}
+
+.swiper-hero .swiper-button-prev,
+.swiper-hero .swiper-button-next {
+  --swiper-navigation-size: 20px;
+  background-color: rgb(255, 255, 255);
+  height: 70px;
+  width: 50px;
+  margin-top: -35px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.swiper-hero .swiper-button-prev {
+  border-radius: 0 65px 65px 0;
+  left: -10px;
+}
+.swiper-hero .swiper-button-next {
+  border-radius: 65px 0 0 65px;
+  right: -10px;
+}
+
+.swiper-hero:hover .swiper-button-prev,
+.swiper-hero:hover .swiper-button-next {
+  opacity: 1;
+}
+/*termino de slider*/
+.formato {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  font-size: 18px;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: "Poppins", sans-serif;
+  text-align: left;
+  margin: 30px 15%;
+  color: black;
+}
+.formato-ubicacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  font-family: "Poppins", sans-serif;
+  margin: 30px 15%;
+  color: black;
+}
+
+body {
+  /* font-family: sans-serif; */
+  font-family: "Poppins", sans-serif;
+  /* padding: 90px 20px 0; */
+
+  /* imagen de fondo */
+  /* background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+    url(https://media.gettyimages.com/id/1296011247/es/foto/interior-of-doctors-office-in-hospital.jpg?s=612x612&w=gi&k=20&c=AZw8TyRAayCtSkuKEqmvcJ-PY59qe-UB4NXl0EoVj7o=); */
+
+  /* background-color: #bb72ff; */
+  @apply bg-gray-300;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpolygon fill='%23AE9' points='120 120 60 120 90 90 120 60 120 0 120 0 60 60 0 0 0 60 30 90 60 120 120 120 '/%3E%3C/svg%3E"); */
+}
+
+.header {
+  background-color: #46a0f5;
+  height: 70px;
+  z-index: 999;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  /* left: 0;  */
+}
+.container-map {
+  /* margin: auto; */
+  /* text-align: center; */
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+
+  margin: auto;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  padding: 0 40px;
+  line-height: 80px;
+}
+
+.nav-menu {
+  display: flex;
+  margin-right: 40px;
+  list-style: none;
+}
+
+.nav-menu-item {
+  font-size: 18px;
+  margin: 0 10px;
+  /* line-height: 80px; */
+  margin-top: 23px;
+  text-transform: uppercase;
+  width: max-content;
+}
+
+.nav-menu-link {
+  padding: 8px 12px;
+  border-radius: 3px;
+}
+
+.nav-menu-link:hover,
+.nav-menu-link_active {
+  background-color: #034574;
+  transition: 0.5s;
+}
+
+/* TOGGLE */
+.nav-toggle {
+  color: white;
+  background: none;
+  border: none;
+  font-size: 30px;
+  padding: 0 20px;
+  line-height: 60px;
+  cursor: pointer;
+
+  display: none;
+}
