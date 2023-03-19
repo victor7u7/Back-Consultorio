@@ -4,11 +4,30 @@ from django.db import IntegrityError
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 import json
+from .models import Date,Paciente
 from django.core.mail import send_mail
 from django.conf import settings
 import dotenv
 dotenv.load_dotenv()
 import os
+import time
+
+class PacientDates(View):
+    def get(self,request):
+        dates = list(Date.objects.values())
+        return JsonResponse({"data":dates})
+    
+    def post(self,request):
+        time.sleep(3)
+        
+        jd = json.loads(request.body)
+        pacient_id = jd["pacient_id"]
+        date =jd["date"]
+        hour = jd["hour"]
+        pacient = Paciente.objects.get(id=pacient_id)
+        Date.objects.create(pacient=pacient, date=date,hour=hour)
+        return HttpResponse(status=201)
+        
 
 class Login(View):
     def get(self, request):
@@ -64,3 +83,4 @@ class CrearPaciente(View):
             return HttpResponse("creado con exito",status=200)
         except IntegrityError:
             return HttpResponse("error",status=400)
+
