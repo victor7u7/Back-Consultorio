@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.table-data {
+  /* @apply border-gray-600; */
+}
+.table-data-disabled {
+  @apply bg-red-900 border border-red-600;
+}
