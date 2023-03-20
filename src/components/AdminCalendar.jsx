@@ -20,18 +20,23 @@ const dates = {
   day: "",
 };
 
-const Calendar = () => {
+const AdminCalendar = () => {
   const [mothName, setMothName] = useState("");
   const [loading, setLoading] = useState(false);
   const [availableDays, setAvailableDays] = useState([]);
   const [showMessage, setShowMessage] = useState(false);
   const [daySelected, setDaySelected] = useState(1);
+  const [updatedTime, setUpdatedTime] = useState(["10:00", "11:30", "12:23"]);
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth() + 1);
   const [timeSelected, setTimeSelected] = useState();
   const [daysInMonth, setDaysInMonth] = useState(
     new Date(currentYear, currentMonth + 1, 0).getDate()
   );
-  const [availableTime, setAvailableTime] = useState(["10:00", "11:30"]);
+  const [availableTime, setAvailableTime] = useState([
+    "10:00",
+    "11:30",
+    "12:23",
+  ]);
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
   const firstDayOfWeekIndex = days.indexOf(getDayOfWeek(firstDayOfMonth));
   const startIndex = firstDayOfWeekIndex === -1 ? 0 : firstDayOfWeekIndex;
@@ -47,10 +52,19 @@ const Calendar = () => {
     setDaysInMonth(new Date(currentYear, monthNumber + 1, 0).getDate());
   }
 
-  const selectDay = (day) => {
-    if (availableDays.includes(day)) {
-      setDaySelected(day);
-    }
+  const selectDay = (e, day) => {
+    e.target.backgorun;
+    if (day >= 1 && day <= daysInMonth) setDaySelected(day);
+
+    // if (day >= 1 && day <= daysInMonth)
+    //   setAvailableDays([...availableDays, day]);
+  };
+
+  const toggleTime = (element) => {
+    const index = updatedTime.indexOf(element);
+    if (index === -1) setUpdatedTime([...updatedTime, element]);
+    else setUpdatedTime(updatedTime.filter((el) => el !== element));
+    console.log(updatedTime);
   };
 
   const getAvailableDays = (year, month, weekdays) => {
@@ -65,24 +79,39 @@ const Calendar = () => {
       date.setDate(date.getDate() + 1); // Move to the next day
     }
     setAvailableDays([...days]);
-    console.log(month, currentMonth);
+    // console.log(month, currentMonth);
   };
-  const sendDate = () => {
-    const myDate = `${currentDate.getFullYear()}-${currentMonth}-${daySelected}`;
-    const date = { pacient_id: 19, date: myDate, hour: timeSelected };
-    setLoading(true);
+
+  const savechanges = () => {
+    const changes = {
+      month: currentMonth + 1,
+      day: daySelected,
+      times: availableTime,
+      year: currentYear,
+    };
     axios
-      .post(`${api}/api/dates`, date)
+      .post(`${api}/api/able`, changes)
       .then((res) => {
-        if (res.status === 201) {
-          console.log(res);
-          setShowMessage(true);
-        }
-        setLoading(false);
+        if (res.status === 201) alert("Created");
+      })
+      .catch((err) => {
+        alert(err.message);
+        console.log(err);
+      });
+  };
+
+  const updateTimes = () => {
+    console.log(daySelected, currentMonth + 1, currentYear);
+    axios
+      .put(
+        `${api}/api/able/${daySelected}/${currentMonth + 1}/${currentYear}`,
+        { times: updatedTime }
+      )
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false);
       });
   };
 
@@ -90,6 +119,7 @@ const Calendar = () => {
     getMonthName(currentDate.getMonth());
   }, []);
   useEffect(() => {
+    console.log(currentMonth);
     getAvailableDays(currentYear, currentMonth + 1, [3, 6]);
   }, [currentMonth]);
 
@@ -97,6 +127,7 @@ const Calendar = () => {
     <>
       <div className="bg-gray-900 h-screen ">
         <div className="">
+          <div className="text-3xl text-center">Admin calendar</div>
           <h1 className="text-4xl font-bold text-center">{mothName}</h1>
         </div>
         <table className="table mx-auto">
@@ -119,15 +150,17 @@ const Calendar = () => {
                 ).map((day) => (
                   <td
                     key={day}
-                    onClick={() => selectDay(day)}
-                    className={`  ${
-                      daySelected === day ? "bg-success text-black" : ""
-                    }${
+                    style={{
+                      backgroundColor: day === daySelected && "#14A44D",
+                      color: day === daySelected && "black",
+                    }}
+                    onClick={(e) => selectDay(e, day)}
+                    className={`${
                       availableDays.includes(day)
-                        ? "bg-gray-100 text-black hover:bg-success cursor-pointer"
-                        : "bg-zinc-900"
+                        ? "bg-gray-100 text-black"
+                        : "bg-zinc-900 text-gray-500"
                     } 
-                      text-center border border-gray-700  
+                      text-center border border-gray-700   
                     `}
                   >
                     {day <= daysInMonth ? (day > 0 ? day : "") : ""}
@@ -158,67 +191,41 @@ const Calendar = () => {
           </tfoot>
         </table>
         <div className="text-center mt-10">
-          <select
-            onChange={(e) => setTimeSelected(e.target.value)}
-            defaultValue={"jaja"}
-            className="select select-primary w-full max-w-xs text-center "
-          >
-            <option disabled selected>
-              Horarios disponibles:
-            </option>
-            {availableTime.map((time) => (
-              <option key={time} value={time}>
-                {time}
-              </option>
+          Horarios disponibles del dia {daySelected} de {mothName}:
+          <div className="flex gap-5 justify-center">
+            {availableTime.map((time, i) => (
+              <div className="bg-blue-800 text-white rounded-md w-16">
+                <div>{time} </div>
+                <input
+                  type="checkbox"
+                  readOnly
+                  onChange={() => toggleTime(time)}
+                  checked={updatedTime.includes(time) ? true : false}
+                  className="checkbox checkbox-success"
+                />
+              </div>
             ))}
-          </select>
+          </div>
         </div>
-        <div className="text-center mt-10 font-bold">
-          Cita programada: <br />
-          {daySelected && mothName && timeSelected && (
-            <span>
-              {daySelected} de {mothName} a las {timeSelected}
-            </span>
-          )}
-        </div>
+
         {!loading ? (
           <div className="text-center mt-5 ">
             <button
               className={`${showMessage ? "hidden" : "btn btn-success"}`}
-              onClick={sendDate}
+              onClick={savechanges}
             >
-              Confirmar cita
+              Guardar cambios
             </button>
           </div>
         ) : (
           <Loader />
         )}
-        {showMessage && (
-          <div className="alert alert-success shadow-lg max-w-[300px] mx-auto">
-            <div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="stroke-current flex-shrink-0 h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <span>
-                cita apartada, ya solo falta ser confirmada por la Dra, ten un
-                buen dia!
-              </span>
-            </div>
-          </div>
-        )}
+        <div className="btn" onClick={updateTimes}>
+          Update
+        </div>
       </div>
     </>
   );
 };
 
-export default Calendar;
+export default AdminCalendar;

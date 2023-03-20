@@ -1,0 +1,3 @@
+i send to the server the month in format 1-12,
+(server storages the month like that).
+
