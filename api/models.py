@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+import calendar
 # Create your models here.
 
 class Paciente(AbstractUser):
@@ -18,3 +18,14 @@ class Date(models.Model):
     confirm  = models.BooleanField(default=False,verbose_name="Confirmar Cita")
     def __str__(self) -> str:
         return self.pacient.username
+    
+class Availability(models.Model):
+    month = models.IntegerField(verbose_name="Numero de mes")
+    day = models.IntegerField(verbose_name="Numero de día")
+    times = models.JSONField(default=[])
+    year  = models.IntegerField(default=2023, verbose_name="Año")
+    
+    def __str__(self) -> str:
+        month_name = calendar.month_name[self.month]
+        return f"{self.day} {month_name} {self.year}"
+ 

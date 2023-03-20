@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 import json
-from .models import Date,Paciente
+from .models import Date,Paciente,Availability
 from django.core.mail import send_mail
 from django.conf import settings
 import dotenv
@@ -12,6 +12,23 @@ dotenv.load_dotenv()
 import os
 import time
 
+
+class AvailabilityView(View):
+    def get(self,request,month=0):
+        if month>0:
+            availability =  list(Availability.objects.filter(month=month).values())
+        else:
+            availability = list(Availability.objects.values())
+        return JsonResponse({"availability":availability})
+    def post(self,request):
+        jd = json.loads(request.body)
+        Availability.objects.create(**jd)
+        return HttpResponse(status=201)
+    
+    def put(self,request,day,month,year):
+        jd = json.loads(request.body)
+        Availability.objects.filter(day=day,month=month,year=year).update(**jd)
+        return HttpResponse("ok updated",status=200)
 class PacientDates(View):
     def get(self,request):
         dates = list(Date.objects.values())
@@ -48,16 +65,6 @@ class Login(View):
             return HttpResponse("fallido", status=409)
 
 
-class testing(View):
-    def get(self, request):
-        print(os.environ.get('VARIABLE_NAME'))   
-        # subject = 'Test email'
-        # message = 'awevoooooo ya jalaa'
-        # from_email = 'consultoriomayratoluca@gmail.com'
-        # recipient_list = ['yairmasterlol@gmail.com']
-        # send_mail(subject, message, from_email, recipient_list)
-        return HttpResponse("ok")
-
 class CrearPaciente(View):
     def post(self, request):
         datos = json.loads(request.body)
@@ -83,4 +90,12 @@ class CrearPaciente(View):
             return HttpResponse("creado con exito",status=200)
         except IntegrityError:
             return HttpResponse("error",status=400)
-
+class testing(View):
+    def get(self, request):
+        print(os.environ.get('VARIABLE_NAME'))   
+        # subject = 'Test email'
+        # message = 'awevoooooo ya jalaa'
+        # from_email = 'consultoriomayratoluca@gmail.com'
+        # recipient_list = ['yairmasterlol@gmail.com']
+        # send_mail(subject, message, from_email, recipient_list)
+        return HttpResponse("ok")
