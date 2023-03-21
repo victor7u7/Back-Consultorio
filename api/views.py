@@ -11,6 +11,7 @@ import dotenv
 dotenv.load_dotenv()
 import os
 import time
+from datetime import datetime
 
 
 class AvailabilityView(View):
@@ -29,10 +30,16 @@ class AvailabilityView(View):
         jd = json.loads(request.body)
         Availability.objects.filter(day=day,month=month,year=year).update(**jd)
         return HttpResponse("ok updated",status=200)
+    def delete(self,request,day,month,year):
+        Availability.objects.filter(day=day,month=month,year=year).delete()
+        return HttpResponse("ok deleted",status=200)
 class PacientDates(View):
     def get(self,request):
-        dates = list(Date.objects.values())
-        return JsonResponse({"data":dates})
+        dates = Date.objects.select_related('pacient').values('id', 'date', 'hour', 'service', 'description', 'confirm', 'pacient__username','pacient__celular','pacient__email')
+        for date in dates:
+            hour = datetime.strptime(str(date['hour']), '%H:%M:%S').strftime('%I:%M %p')
+            date['hour'] = hour
+        return JsonResponse({"data": list(dates)})
     
     def post(self,request):
         time.sleep(3)
