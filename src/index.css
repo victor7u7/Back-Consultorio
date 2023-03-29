@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* Change the color of the scroll bar */
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: #f5f5f5;
+}
+
+/* Change the style of the thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #2e8b57;
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+}
+
+/* Change the style of the track */
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
+  border: 2px solid #f5f5f5;
+}
+
+/* Add a dental graphic to the thumb */
+::-webkit-scrollbar-thumb {
+  background-image: url("dental-graphic.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
 .table-data {
   /* @apply border-gray-600; */
 }

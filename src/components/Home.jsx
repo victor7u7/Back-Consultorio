@@ -195,7 +195,7 @@ const Home = () => {
           </div>
         </div>
 
-        <p className="formato">
+        {/* <p className="formato">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum,
           consequatur quo! Tenetur possimus ut cumque, optio accusamus
           blanditiis inventore, dicta, autem veniam quaerat hic excepturi fugiat
@@ -220,8 +220,8 @@ const Home = () => {
           aperiam, minus, tempora corporis id voluptates voluptatum quibusdam
           maiores odit accusantium asperiores ea repellendus! Aliquid in rerum
           temporibus?
-        </p>
-        <div className="flex w-3/4 justify-center mx-auto flex-wrap">
+        </p> */}
+        <div className="mt-[500px] flex w-3/4 justify-center mx-auto flex-wrap">
           <div className="w-full lg:w-1/2">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d489.63443797482705!2d-99.62922459507178!3d19.321516115291477!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d275fc6fcdd857%3A0x66716d8a7a3b1078!2sConsultorio%20Dental%20Dra.%20Mayra%20L%C3%B3pez%20Ben%C3%ADtez!5e1!3m2!1ses!2smx!4v1669864533219!5m2!1ses!2smx"

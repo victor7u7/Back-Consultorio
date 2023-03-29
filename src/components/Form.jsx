@@ -1,10 +1,14 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Modal from "react-modal";
 import OutsideClickHandler from "react-outside-click-handler";
 import { api } from "./Url";
 import eye from "../media/eye.png";
 import closeye from "../media/closeye.png";
+import closeForm from "../media/closeForm.png";
+import AuthContext from "../AuthContext/AuthContext";
+import toast, { Toaster } from "react-hot-toast";
+
 const customStyles = {
   content: {
     outline: "none",
@@ -15,28 +19,13 @@ const Form = ({ isOpen, setIsOpen }) => {
   const [data, setData] = useState({});
   const [isEntire, setIsEntire] = useState(false);
   const [hidePass, setHidePass] = useState(true);
+  const { user, loginUser } = useContext(AuthContext);
+  console.log(user);
   const Login = () => {
-    axios
-      .post(`${api}/api/login`, {
-        email: data.email,
-        contrasena: data.password,
-      })
-      .then((respuesta) => {
-        if (respuesta.status === 200) {
-          alert("login exitoso");
-          /* window.location.href = "http://127.0.0.1:8000/admin/"; */
-          window.location.href = "ejemplo.html";
-        } else if (respuesta.status === 201) {
-          window.location.href = "http://127.0.0.1:8000/admin/";
-        } else {
-          alert("algo mal");
-        }
-        console.log(respuesta);
-      })
-      .catch((error) => {
-        // console.log(error)
-        alert("ocurrio un error");
-      });
+    loginUser({
+      email: data.email,
+      contrasena: data.password,
+    });
   };
 
   const manejarEnvio = () => {
@@ -51,25 +40,37 @@ const Form = ({ isOpen, setIsOpen }) => {
       })
       .then((respuesta) => {
         if (respuesta.status === 200) {
-          alert("login exitoso");
-        } else {
-          alert("algo mal");
+          toast.success(
+            `Enviamos un correo a *${data.email}* favor de verificar para registrar tu cuenta`,
+            { duration: 6000 }
+          ),
+            console.log(respuesta);
+          setIsOpen(false);
         }
-        console.log(respuesta);
       })
       .catch((error) => {
         console.log(error);
+        if (error.response.status === 405) {
+          toast.error("Correo y/o celular ya existen");
+        } else {
+          toast.error("ups algo salió mal, intentalo de nuevo", {
+            duration: 2500,
+          });
+        }
       });
   };
 
   return (
     <div>
+      <Toaster />
+
       <Modal
         ariaHideApp={false}
         style={customStyles}
         className="z"
         isOpen={isOpen}
       >
+        <Toaster />
         <div className="">
           <div className="w-full max-w-xs  mx-auto mt-16">
             <OutsideClickHandler
@@ -77,7 +78,14 @@ const Form = ({ isOpen, setIsOpen }) => {
                 setIsOpen(!isOpen);
               }}
             >
-              <form className="bg-white transition ease-in-out duration-300   shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
+              <form className="bg-white relative transition ease-in-out duration-300   shadow-md rounded px-8 pt-6 pb-8 mb-4 ">
+                <img
+                  src={closeForm}
+                  alt=""
+                  className="w-7 cursor-pointer absolute right-0 top-0 m-2"
+                  onClick={() => setIsOpen(!isOpen)}
+                />
+
                 <div className={`${isEntire ? "" : "hidden"}  mb-6`}>
                   <label
                     className="block text-gray-700 text-sm font-bold mb-2"
@@ -194,10 +202,6 @@ const Form = ({ isOpen, setIsOpen }) => {
                     alt=""
                     className="w-5 absolute right-2 -mt-10"
                   />
-
-                  <p className="text-red-500 text-xs italic">
-                    introduce una contraseña
-                  </p>
                 </div>
 
                 <div className="flex items-center justify-between">

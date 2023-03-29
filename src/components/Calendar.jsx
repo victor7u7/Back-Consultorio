@@ -1,9 +1,10 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import left from "../media/left.png";
 import right from "../media/right.png";
 import Loader from "./Loader";
 import { api } from "./Url";
+import AuthContext from "../AuthContext/AuthContext";
 
 const days = ["D", "L", "M", "X", "J", "V", "S"];
 const unavailableDays = [];
@@ -19,8 +20,9 @@ const dates = {
   client: "yair",
   day: "",
 };
-
 const Calendar = () => {
+  const { user } = useContext(AuthContext);
+  const [serverDate, setServerDate] = useState();
   const [mothName, setMothName] = useState("");
   const [loading, setLoading] = useState(false);
   const [availableDays, setAvailableDays] = useState([]);
@@ -50,6 +52,7 @@ const Calendar = () => {
   const selectDay = (day) => {
     if (availableDays.includes(day)) {
       setDaySelected(day);
+      setDaySelected(res.data.date);
     }
   };
 
@@ -87,6 +90,12 @@ const Calendar = () => {
   };
 
   useEffect(() => {
+    axios.get(`${api}/api/dates/${user.id}`).then((res) => {
+      if (res.status === 200) {
+        setShowMessage(true);
+        setServerDate(res.data.date);
+      }
+    });
     getMonthName(currentDate.getMonth());
   }, []);
   useEffect(() => {
@@ -173,14 +182,14 @@ const Calendar = () => {
             ))}
           </select>
         </div>
-        <div className="text-center mt-10 font-bold">
-          Cita programada: <br />
-          {daySelected && mothName && timeSelected && (
+        {daySelected && mothName && timeSelected && (
+          <div className="text-center mt-10 font-bold">
+            Cita programada: <br />
             <span>
               {daySelected} de {mothName} a las {timeSelected}
             </span>
-          )}
-        </div>
+          </div>
+        )}
         {!loading ? (
           <div className="text-center mt-5 ">
             <button
@@ -216,6 +225,7 @@ const Calendar = () => {
             </div>
           </div>
         )}
+        {serverDate && <div className="text-center">{serverDate}</div>}
       </div>
     </>
   );
