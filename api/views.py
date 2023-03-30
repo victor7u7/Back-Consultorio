@@ -10,7 +10,7 @@ from django.conf import settings
 import dotenv
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
-
+import secrets
 import os
 import time
 from datetime import datetime
@@ -102,7 +102,35 @@ class Login(View):
             return HttpResponse("fallido", status=409)
 
 
+class VerifyEmail(View):
+    def post(self, request):
+        jd = json.loads(request.body)
+        User = get_user_model()
+        User = User.objects.get(id=jd["user_id"])
+        token = jd["token"]
+        if User.email_token == token:
+            User.is_active = True
+            User.save()
+            return HttpResponse("success", status=200)
+        else:
+            return HttpResponse("error", status=409)
+
+
 class CrearPaciente(View):
+    def get(self, request):
+        token = secrets.token_hex(17)
+        User = get_user_model()
+        User = User.objects.get(id=88)
+        User.email_token = token
+        User.save()
+        subject = "Test email"
+        from_email = settings.EMAIL_HOST_USER
+        recipient_list = ["yairmasterlol@gmail.com"]
+        send_mail(
+            subject, f"{settings.SITE}/verify/{token}/{88}", from_email, recipient_list
+        )
+        return JsonResponse({"mensaje": token})
+
     def post(self, request):
         datos = json.loads(request.body)
         try:
@@ -114,6 +142,7 @@ class CrearPaciente(View):
             return HttpResponse("Correo y/o Celular ya existen", status=405)
         except ObjectDoesNotExist:
             try:
+                token = secrets.token_hex(17)
                 user = get_user_model().objects.create_user(
                     email=datos["email"],
                     password=datos["contrasena"],
@@ -121,11 +150,12 @@ class CrearPaciente(View):
                     ap_paterno=datos["apPaterno"],
                     ap_materno=datos["apMaterno"],
                     celular=datos["celular"],
+                    email_token=token,
                 )
                 user.save()
 
                 subject = "Test email"
-                message = json.dumps(datos)
+                message = f"{settings.SITE}/verify/{token}/{user.id}"
                 from_email = settings.EMAIL_HOST_USER
                 recipient_list = [datos["email"]]
                 send_mail(subject, message, from_email, recipient_list)
