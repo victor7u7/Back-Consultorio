@@ -52,7 +52,7 @@ const Calendar = () => {
   const selectDay = (day) => {
     if (availableDays.includes(day)) {
       setDaySelected(day);
-      setDaySelected(res.data.date);
+      // setDaySelected(res.data.date);
     }
   };
 

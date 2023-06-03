@@ -6,6 +6,7 @@ import Home from "../components/Home";
 import Loader2 from "../components/Loader2";
 import NavBar from "../components/NavBar";
 import VerifyEmail from "../components/VerifyEmail";
+import NewCalendar from "../components/NewCalendar";
 
 const MyRouter = () => {
   return (
@@ -17,6 +18,7 @@ const MyRouter = () => {
       <Route path="/dates" element={<DatesList />} />
       <Route path="/verify/:token/:user_id" element={<VerifyEmail />} />
       <Route path="/loader2" element={<Loader2 />} />
+      <Route path="/ca" element={<NewCalendar />} />
     </Routes>
   );
 };
