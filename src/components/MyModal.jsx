@@ -31,6 +31,7 @@ const MyModal = ({ date, hour, noHumanDate, isOpen, setIsOpen }) => {
         console.log(err);
       });
   };
+
   return (
     <div>
       <Modal

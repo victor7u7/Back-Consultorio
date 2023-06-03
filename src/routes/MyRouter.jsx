@@ -7,6 +7,7 @@ import Loader2 from "../components/Loader2";
 import NavBar from "../components/NavBar";
 import VerifyEmail from "../components/VerifyEmail";
 import NewCalendar from "../components/NewCalendar";
+import AdminCal from "../components/AdminCal";
 
 const MyRouter = () => {
   return (
@@ -19,6 +20,7 @@ const MyRouter = () => {
       <Route path="/verify/:token/:user_id" element={<VerifyEmail />} />
       <Route path="/loader2" element={<Loader2 />} />
       <Route path="/ca" element={<NewCalendar />} />
+      <Route path="/adminca" element={<AdminCal />} />
     </Routes>
   );
 };
