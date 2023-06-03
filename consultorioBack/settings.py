@@ -97,7 +97,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = "api.Paciente"
+# AUTH_USER_MODEL = "api.Paciente"
 
 
 # Password validation
@@ -135,7 +135,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-AUTHENTICATION_BACKENDS = ["api.backends.EmailBackend"]
+# AUTHENTICATION_BACKENDS = ["api.backends.EmailBackend"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
