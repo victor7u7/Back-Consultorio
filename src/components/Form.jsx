@@ -20,44 +20,57 @@ const Form = ({ isOpen, setIsOpen }) => {
   const [isEntire, setIsEntire] = useState(false);
   const [hidePass, setHidePass] = useState(true);
   const { user, loginUser } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
   const Login = () => {
+    console.log("kakakak login");
     loginUser({
-      email: data.email,
+      dato: data.email,
       contrasena: data.password,
     });
   };
-
+  // const areAllValuesNotEmpty = () => {
+  //   const values = Object.values(data);
+  //   return values.every((value) => value !== "");
+  // };
   const manejarEnvio = () => {
-    axios
-      .post(`${api}/api/signup`, {
-        nombres: data.nombres,
-        apPaterno: data.ap_paterno,
-        apMaterno: data.ap_materno,
-        email: data.email,
-        celular: data.celular,
-        contrasena: data.password,
-      })
-      .then((respuesta) => {
-        if (respuesta.status === 200) {
-          toast.success(
-            `Enviamos un correo a *${data.email}* favor de verificar para registrar tu cuenta`,
-            { duration: 6000 }
-          ),
-            console.log(respuesta);
-          setIsOpen(false);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 405) {
-          toast.error("Correo y/o celular ya existen");
-        } else {
-          toast.error("ups algo salió mal, intentalo de nuevo", {
-            duration: 2500,
-          });
-        }
-      });
+    const areAllValuesNotEmpty = Object.values(data).every(
+      (value) => value !== undefined && value !== null && value !== ""
+    );
+    if (Object.keys(data).length === 0 || !areAllValuesNotEmpty) {
+      console.log("Some values are empty");
+      toast.error("Llena todos los campos");
+    } else {
+      axios
+        .post(`${api}/api/signup`, {
+          username: data.nombres,
+          ap_paterno: data.ap_paterno,
+          ap_materno: data.ap_materno,
+          email: data.email,
+          celular: data.celular,
+          password: data.password,
+        })
+        .then((respuesta) => {
+          if (respuesta.status === 200) {
+            toast.success(
+              `Enviamos un correo a *${data.email}* favor de verificar para registrar tu cuenta`,
+              { duration: 6000 }
+            ),
+              console.log(respuesta.status);
+            setData({});
+            setIsOpen(false);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 405) {
+            toast.error("Correo y/o celular ya existen");
+          } else {
+            toast.error("ups algo salió mal, intentalo de nuevo", {
+              duration: 2500,
+            });
+          }
+        });
+    }
   };
 
   return (
@@ -212,6 +225,8 @@ const Form = ({ isOpen, setIsOpen }) => {
                     onClick={() => {
                       isEntire ? manejarEnvio() : Login();
                     }}
+                    // disabled={¿}
+                    // disabled={!areAllValuesNotEmpty()}
                   >
                     {isEntire ? "Registrar" : "Iniciar sesion"}
                   </button>

@@ -2,10 +2,13 @@ import axios from "axios";
 import convertTime from "convert-time";
 import { useEffect, useState } from "react";
 import { api } from "./Url";
+import ModalNotes from "./ModalNotes";
 
 const DatesList = () => {
   const [dates, setDates] = useState([]);
+  const [dateSelected, setDateSelected] = useState({});
   const [confirm, setConfirm] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
   const getDates = () => {
     axios
       .get(`${api}/api/dates`)
@@ -44,6 +47,10 @@ const DatesList = () => {
     // } else {
     //   setConfirm();
     // }
+  };
+  const handleDetails = (date) => {
+    setDateSelected(date);
+    setOpenModal(true);
   };
   useEffect(() => {
     getDates();
@@ -114,7 +121,12 @@ const DatesList = () => {
                 <td>{date.pacient__celular}</td>
                 <td>{date.pacient__email}</td>
                 <td>
-                  <button className="btn btn-ghost btn-xs">details</button>
+                  <button
+                    className="btn btn-ghost btn-xs"
+                    onClick={() => handleDetails(date)}
+                  >
+                    Notas
+                  </button>
                 </td>
               </tr>
             ))}
@@ -137,6 +149,11 @@ const DatesList = () => {
           confirm.map((date, i) => <div key={i}>{date.pacient__username}</div>)}
       </div>
       <button className="btn">confirmar</button>
+      <ModalNotes
+        isOpen={openModal}
+        changeOpen={setOpenModal}
+        dateSelected={dateSelected}
+      />
     </div>
   );
 };

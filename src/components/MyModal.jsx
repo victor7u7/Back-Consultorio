@@ -2,6 +2,8 @@ import axios from "axios";
 import Modal from "react-modal";
 import { api } from "./Url";
 import { toast } from "react-hot-toast";
+import AuthContext from "../AuthContext/AuthContext";
+import { useContext } from "react";
 
 const customStyles = {
   content: {
@@ -16,10 +18,12 @@ const customStyles = {
   overlay: { zIndex: 999, backgroundColor: "#18191ab1" },
 };
 const MyModal = ({ date, hour, noHumanDate, isOpen, setIsOpen }) => {
+  const { user } = useContext(AuthContext);
+
   const sendDate = () => {
     axios
       .put(
-        `${api}/api/able/${noHumanDate.year}/${noHumanDate.month}/${noHumanDate.day}`,
+        `${api}/api/able/${noHumanDate.year}/${noHumanDate.month}/${noHumanDate.day}/${user.id}`,
         { del_time: hour }
       )
       .then((res) => {

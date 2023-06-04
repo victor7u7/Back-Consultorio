@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { api } from "../components/Url";
 import toast, { Toaster } from "react-hot-toast";
+import { host } from "../components/host";
 
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
@@ -25,12 +26,12 @@ export const AuthProvider = ({ children }) => {
           setUser(res.data.user);
           //   setIsOpenAuth(false);
           localStorage.setItem("user", JSON.stringify(res.data.user));
-          window.location.href = "http://127.0.0.1:8000/admin/";
+          window.location.href = `${host}/admin-calendar`;
         }
         if (res.status === 200) {
           setUser(res.data.user);
           localStorage.setItem("user", JSON.stringify(res.data.user));
-          window.location.href = "http://127.0.0.1:5173/calendar";
+          window.location.href = `${host}/calendar`;
         }
         // setIsOpen(false);
         console.log(res);
