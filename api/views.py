@@ -1,12 +1,9 @@
-from zoneinfo import available_timezones
 from django.contrib.auth import get_user_model
 from django.contrib.auth import authenticate
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 import json
 from datetime import date
-
-
 from .models import Date, Paciente, Availability
 from django.core.mail import send_mail
 from django.conf import settings
@@ -36,10 +33,10 @@ class AvailabilityView(View):
         Availability.objects.create(**jd)
         return HttpResponse(status=201)
 
-    def put(self, request, year, month, day):
+    def put(self, request, year, month, day, user_id):
         jd = json.loads(request.body)
         specific_date = date(year, month, day)
-
+        Date.objects.create(pacient_id=user_id, date=specific_date, hour=jd["del_time"])
         availability = Availability.objects.get(available_date__exact=specific_date)
         times = availability.times
         item_to_delete = jd["del_time"]
@@ -74,6 +71,37 @@ class AvailabilityAdminView(View):
                     available_date=specific_date, times=times
                 )
         return HttpResponse("oki", 200)
+
+
+# class Patient(View):
+
+
+class PacientDates(View):
+    def get(self, request):
+        dates = list(
+            Date.objects.select_related("pacient").values(
+                "id",
+                "date",
+                "hour",
+                "service",
+                "description",
+                "confirm",
+                "pacient__username",
+                "pacient__celular",
+                "pacient__email",
+            )
+        )
+        return JsonResponse({"data": dates})
+
+
+class NotesView(View):
+    def post(self, request, date_id):
+        jd = json.loads(request.body)
+        date = Date.objects.get(id=date_id)
+        print(date.hour)
+        date.description = jd["text"]
+        date.save()
+        return HttpResponse("oki", status=200)
 
 
 # class PacientDates(View):
@@ -115,25 +143,25 @@ class AvailabilityAdminView(View):
 #         return HttpResponse(status=201)
 
 
-class Login(View):
-    def get(self, request):
-        return JsonResponse({"mensaje": "exito"})
+# class Login(View):
+#     def get(self, request):
+#         return JsonResponse({"mensaje": "exito"})
 
-    def post(self, request):
-        datos = json.loads(request.body)
-        email = datos["email"]
-        contrasena = datos["contrasena"]
-        user = authenticate(request, username=email, password=contrasena)
-        if user is not None:
-            user_dict = model_to_dict(user)
-            if user.is_superuser:
-                return JsonResponse({"user": user_dict}, status=202)
-            else:
-                # User is not an admin
-                return JsonResponse({"user": user_dict}, status=200)
+#     def post(self, request):
+#         datos = json.loads(request.body)
+#         email = datos["email"]
+#         contrasena = datos["contrasena"]
+#         user = authenticate(request, username=email, password=contrasena)
+#         if user is not None:
+#             user_dict = model_to_dict(user)
+#             if user.is_superuser:
+#                 return JsonResponse({"user": user_dict}, status=202)
+#             else:
+#                 # User is not an admin
+#                 return JsonResponse({"user": user_dict}, status=200)
 
-        else:
-            return HttpResponse("fallido", status=409)
+#         else:
+#             return HttpResponse("fallido", status=409)
 
 
 class VerifyEmail(View):
@@ -148,6 +176,42 @@ class VerifyEmail(View):
             return HttpResponse("success", status=200)
         else:
             return HttpResponse("error", status=409)
+
+
+class PatientSignup(View):
+    def post(self, request):
+        jd = json.loads(request.body)
+        # print(jd["celular"], jd["email"])
+        try:
+            print("lolis")
+            Paciente.objects.get(Q(email=jd["email"]) | Q(celular=jd["celular"]))
+            return HttpResponse("exists", status=405)
+        except Paciente.DoesNotExist:
+            print("jere**************")
+            patient = Paciente.objects.create(**jd)
+            patient.save()
+
+            return HttpResponse("oki", status=200)
+
+
+class PatientLogin(View):
+    def post(self, request):
+        jd = json.loads(request.body)
+        try:
+            patient = Paciente.objects.get(Q(email=jd["dato"]) | Q(celular=jd["dato"]))
+            if patient.password == jd["contrasena"]:
+                patient_data = {
+                    "id": patient.id,
+                    "username": patient.username,
+                }
+
+                return JsonResponse(
+                    {"user": patient_data}, status=202 if patient.is_admin else 200
+                )
+            else:
+                return HttpResponse("incorrect", status=400)
+        except Paciente.DoesNotExist:
+            return HttpResponse("bad", status=500)
 
 
 # class CrearPaciente(View):

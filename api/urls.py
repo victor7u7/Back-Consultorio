@@ -1,24 +1,23 @@
 from django.urls import path
-
-# Create your models here.
 from .views import (
-    Login,
-    # CrearPaciente,
     testing,
-    # PacientDates,
     AvailabilityView,
     VerifyEmail,
     AvailabilityAdminView,
+    PatientSignup,
+    PatientLogin,
+    PacientDates,
+    NotesView,
 )
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
-    path("login", csrf_exempt(Login.as_view()), name="login"),
-    # path("signup", csrf_exempt(CrearPaciente.as_view()), name="signup"),
+    path("login", csrf_exempt(PatientLogin.as_view()), name="login"),
+    path("signup", csrf_exempt(PatientSignup.as_view()), name="signup"),
+    path("dates", csrf_exempt(PacientDates.as_view()), name="dates"),
     path("test", csrf_exempt(testing.as_view()), name="tes"),
-    # path("dates", csrf_exempt(PacientDates.as_view()), name="dates"),
     path("verify", csrf_exempt(VerifyEmail.as_view()), name="verify"),
-    # path("dates/<int:pacient_id>", csrf_exempt(PacientDates.as_view()), name="dates"),
+    path("notes/<int:date_id>", csrf_exempt(NotesView.as_view()), name="notes"),
     path("able", csrf_exempt(AvailabilityView.as_view()), name="able"),
     path(
         "able/<int:year>/<int:month>",
@@ -26,7 +25,7 @@ urlpatterns = [
         name="able",
     ),
     path(
-        "able/<int:year>/<int:month>/<int:day>",
+        "able/<int:year>/<int:month>/<int:day>/<int:user_id>",
         csrf_exempt(AvailabilityView.as_view()),
         name="able",
     ),
