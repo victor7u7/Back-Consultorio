@@ -110,7 +110,7 @@ const AdminCal = () => {
   }, [dates]);
   return (
     <div className="bg-gray-800 h-screen ">
-      <div className="bg-gray-900 rounded-xl pt-10 text-white lg:p-5  w-full lg:w-1/2 mx-auto">
+      <div className="bg-gray-900 rounded-xl pt-28 text-white lg:p-5  w-full lg:w-1/2 mx-auto">
         <div className="mb-10 text-center font-bold text-2xl">
           <div className="flex  justify-around items-center">
             <button
@@ -148,7 +148,7 @@ const AdminCal = () => {
           {myDays.map((day, key) => (
             <div
               key={key}
-              className="text-center border border-gray-500 rounded-sm p-1"
+              className="text-center truncate border border-gray-500 rounded-sm p-1"
             >
               {day}
             </div>

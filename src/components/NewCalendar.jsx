@@ -15,6 +15,7 @@ const myDays = [
 const NewCalendar = () => {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
+  const [monthsPassed, setMonthsPassed] = useState(0);
   const currentMonth = currentDate.getMonth() + 1; // Months are zero-based, so add 1 to get the correct month
   // const [startDay, setStartDay] = useState();
   const [isOpen, setIsOpen] = useState(false);
@@ -67,9 +68,14 @@ const NewCalendar = () => {
   };
 
   const handleChangeMonth = (is_next) => {
-    is_next
-      ? setDates({ ...dates, currentMonth: dates.currentMonth + 1 })
-      : setDates({ ...dates, currentMonth: dates.currentMonth - 1 });
+    console.log(monthsPassed);
+    if (is_next) {
+      setMonthsPassed(monthsPassed + 1);
+      setDates({ ...dates, currentMonth: dates.currentMonth + 1 });
+    } else {
+      setMonthsPassed(monthsPassed - 1);
+      setDates({ ...dates, currentMonth: dates.currentMonth - 1 });
+    }
   };
   const generateHumanDate = () => {
     const year = dates.currentYear;
@@ -100,12 +106,13 @@ const NewCalendar = () => {
   }, [dates]);
   return (
     <div className="bg-gray-800 h-screen ">
-      <div className="bg-gray-900 rounded-xl pt-10 text-white lg:p-5  w-full lg:w-1/2 mx-auto">
+      <div className="bg-gray-900 rounded-xl pt-28 text-white  w-full lg:w-1/2 mx-auto">
         <div className="mb-10 text-center font-bold text-2xl">
           <div className="flex  justify-around items-center">
             <button
-              className="btn btn-circle"
               onClick={() => handleChangeMonth(false)}
+              className="btn btn-circle"
+              disabled={monthsPassed <= -2}
             >
               <svg
                 viewBox="0 0 1024 1024"
@@ -121,6 +128,7 @@ const NewCalendar = () => {
             <button
               className="btn btn-circle"
               onClick={() => handleChangeMonth(true)}
+              disabled={monthsPassed >= 2}
             >
               <svg
                 viewBox="0 0 1024 1024"
@@ -138,7 +146,7 @@ const NewCalendar = () => {
           {myDays.map((day, key) => (
             <div
               key={key}
-              className="text-center border border-gray-500 rounded-sm p-1"
+              className="text-center truncate border border-gray-500 rounded-sm p-1"
             >
               {day}
             </div>

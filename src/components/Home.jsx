@@ -19,8 +19,6 @@ const swiperImages = [img1, img2, img3, img4, img5, img6];
 const Home = () => {
   return (
     <>
-      <NavBar />
-
       <main id="inicio" className="">
         <div
           className="h-2/5  sm:h-screen bg-cover bg-center"
@@ -36,7 +34,7 @@ const Home = () => {
             calidad, para que puedas seguir sonriendo , agenda tu cita.
           </p>
 
-          <div className="w-[780px] mx-auto rounded-md">
+          <div className=" mx-auto rounded-md">
             <Swiper
               className="mx-auto"
               spaceBetween={50}

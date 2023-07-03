@@ -3,10 +3,12 @@ import { createContext, useEffect, useState } from "react";
 import { api } from "../components/Url";
 import toast, { Toaster } from "react-hot-toast";
 import { host } from "../components/host";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isOpenAuth, setIsOpenAuth] = useState(true);
+
   let [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
