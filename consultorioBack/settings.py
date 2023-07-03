@@ -29,7 +29,10 @@ SECRET_KEY = "django-insecure-cvquhob^9z2*k04^*#)@m#pq6kps1oe#2n9%db^&nx^1bq7@fd
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:5173"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:5173",
+    "https://consultorio-production.up.railway.app",
+]
 CORS_ORIGIN_ALLOW_ALL = True
 SITE = "http://127.0.0.1:5173"
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
