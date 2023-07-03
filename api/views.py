@@ -1,17 +1,15 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth import authenticate
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 import json
 from datetime import date
 from .models import Date, Paciente, Availability
-from django.core.mail import send_mail
 from django.conf import settings
 import dotenv
 from django.db.models import Q
-import calendar
-import datetime
 from django.forms.models import model_to_dict
+from django.core.mail import send_mail
+from datetime import datetime
 
 dotenv.load_dotenv()
 
@@ -24,6 +22,7 @@ class AvailabilityView(View):
                     Q(available_date__year=year) & Q(available_date__month=month)
                 ).values()
             )
+
         else:
             availability = list(Availability.objects.values())
         return JsonResponse({"availability": availability})
@@ -76,6 +75,33 @@ class AvailabilityAdminView(View):
 # class Patient(View):
 
 
+def transform_date(date):
+    date_string = date
+    date_object = datetime.strptime(date_string, "%Y-%m-%d")
+    spanish_date_format = date_object.strftime("%d/%m/%Y")
+    return spanish_date_format
+
+
+class ConfirmDate(View):
+    def post(self, request):
+        jd = json.loads(request.body)
+        subject = "Confirmación de cita"
+        from_email = "consultoriomayratoluca@gmail.com"
+        for cita in jd["dates"]:
+            # print(cita["pacient__username"])
+            cita_id = cita["id"]
+            date_sel = Date.objects.get(id=cita_id)
+            date_sel.confirm = True
+            date_sel.save()
+            pacient_name = cita["pacient__username"]
+            fecha = transform_date(cita["date"])
+            hour = cita["hour"]
+            message = f"Hola {pacient_name} tu cita está confirmada para {fecha} a las {hour} hrs"
+            recipient_list = [cita["pacient__email"]]
+            send_mail(subject, message, from_email, recipient_list)
+        return HttpResponse("OK", 200)
+
+
 class PacientDates(View):
     def get(self, request):
         dates = list(
@@ -89,6 +115,7 @@ class PacientDates(View):
                 "pacient__username",
                 "pacient__celular",
                 "pacient__email",
+                "pacient__id",
             )
         )
         return JsonResponse({"data": dates})
@@ -102,66 +129,6 @@ class NotesView(View):
         date.description = jd["text"]
         date.save()
         return HttpResponse("oki", status=200)
-
-
-# class PacientDates(View):
-#     def get(self, request, pacient_id=0):
-#         if pacient_id > 0:
-#             date = Date.objects.filter(pacient__id=pacient_id).first()
-#             if date is not None:
-#                 return JsonResponse({"date": [date.date, date.hour]}, status=200)
-#             else:
-#                 return HttpResponse(status=404)
-#         else:
-#             dates = Date.objects.select_related("pacient").values(
-#                 "id",
-#                 "date",
-#                 "hour",
-#                 "service",
-#                 "description",
-#                 "confirm",
-#                 "pacient__username",
-#                 "pacient__celular",
-#                 "pacient__email",
-#             )
-#             for date in dates:
-#                 hour = datetime.strptime(str(date["hour"]), "%H:%M:%S").strftime(
-#                     "%I:%M %p"
-#                 )
-#                 date["hour"] = hour
-#             return JsonResponse({"data": list(dates)})
-
-#     def post(self, request):
-#         time.sleep(3)
-
-#         jd = json.loads(request.body)
-#         pacient_id = jd["pacient_id"]
-#         date = jd["date"]
-#         hour = jd["hour"]
-#         pacient = Paciente.objects.get(id=pacient_id)
-#         Date.objects.create(pacient=pacient, date=date, hour=hour)
-#         return HttpResponse(status=201)
-
-
-# class Login(View):
-#     def get(self, request):
-#         return JsonResponse({"mensaje": "exito"})
-
-#     def post(self, request):
-#         datos = json.loads(request.body)
-#         email = datos["email"]
-#         contrasena = datos["contrasena"]
-#         user = authenticate(request, username=email, password=contrasena)
-#         if user is not None:
-#             user_dict = model_to_dict(user)
-#             if user.is_superuser:
-#                 return JsonResponse({"user": user_dict}, status=202)
-#             else:
-#                 # User is not an admin
-#                 return JsonResponse({"user": user_dict}, status=200)
-
-#         else:
-#             return HttpResponse("fallido", status=409)
 
 
 class VerifyEmail(View):
@@ -203,6 +170,7 @@ class PatientLogin(View):
                 patient_data = {
                     "id": patient.id,
                     "username": patient.username,
+                    "admin": patient.is_admin,
                 }
 
                 return JsonResponse(
@@ -262,29 +230,3 @@ class PatientLogin(View):
 #                 return HttpResponse("creado con exito", status=200)
 #             except IntegrityError:
 #                 return HttpResponse("error", status=400)
-def get_all_wednesdays(year, month, days):
-    _, num_days = calendar.monthrange(year, month)
-
-    for day in range(1, num_days + 1):
-        date = datetime.date(year, month, day)
-        if date.weekday() == 2:
-            Availability.objects.create(
-                available_date=str(date), times=["15:00", "18:00", "19:00"]
-            )
-        elif date.weekday() == 5:
-            Availability.objects.create(
-                available_date=str(date), times=["08:30", "13:00", "14:00"]
-            )
-
-
-class testing(View):
-    def get(self, request):
-        get_all_wednesdays(2023, 6, [2, 5])
-        # print(os.environ.get("VARIABLE_NAME"))
-        # subject = 'Test email'
-        # message = 'awevoooooo ya jalaa'
-        # from_email = 'consultoriomayratoluca@gmail.com'
-        # recipient_list = ['yairmasterlol@gmail.com']
-        # send_mail(subject, message, from_email, recipient_list)
-
-        return HttpResponse("ok")

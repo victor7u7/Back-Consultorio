@@ -31,17 +31,28 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:5173"]
 CORS_ORIGIN_ALLOW_ALL = True
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
 SITE = "http://127.0.0.1:5173"
-# EMAIL_HOST_USER ="consultoriomayratoluca@gmail.com"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_HOST_USER = "consultoriomayratoluca@gmail.com"
 # EMAIL_HOST_PASSWORD = "zsteoywpzmqfatxl"
 # EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-EMAIL_PORT = os.environ.get("EMAIL_PORT")
-EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+# EMAIL_PORT = os.environ.get("EMAIL_PORT")
+# EMAIL_USE_TLS = True
+
 # DEFAULT_FROM_EMAIL = 'companyseller.ml@gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = (
+    "oficinasysalonesmaster@gmail.com"  # Replace with your Gmail email address
+)
+EMAIL_HOST_PASSWORD = (
+    "Ptasrfbodxlrbkxa"  # Replace with your Gmail app password or account password
+)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
