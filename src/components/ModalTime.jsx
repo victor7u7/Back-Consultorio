@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
+import OutsideClickHandler from "react-outside-click-handler";
 import TimeKeeper from "react-timekeeper";
 
 const customStyles = {
@@ -42,25 +43,27 @@ const ModalTime = ({
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <TimeKeeper
-          time={time}
-          onChange={(data) => {
-            console.log(list.includes(data.formatted24));
-            setTime(data.formatted24);
-          }}
-        />
-        <div className="text-center pt-4">
-          <button
-            onClick={() => {
-              handleTime();
-              changeOpen(false);
+        <OutsideClickHandler onOutsideClick={() => changeOpen(false)}>
+          <TimeKeeper
+            time={time}
+            onChange={(data) => {
+              console.log(list.includes(data.formatted24));
+              setTime(data.formatted24);
             }}
-            disabled={list.includes(time)}
-            className="btn btn-info"
-          >
-            Agregar
-          </button>
-        </div>
+          />
+          <div className="text-center pt-4">
+            <button
+              onClick={() => {
+                handleTime();
+                changeOpen(false);
+              }}
+              disabled={list.includes(time)}
+              className="btn btn-info"
+            >
+              Agregar
+            </button>
+          </div>
+        </OutsideClickHandler>
       </Modal>
     </div>
   );

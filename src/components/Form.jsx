@@ -27,6 +27,7 @@ const Form = ({ isOpen, setIsOpen }) => {
       dato: data.email,
       contrasena: data.password,
     });
+    setIsOpen(false);
   };
   // const areAllValuesNotEmpty = () => {
   //   const values = Object.values(data);
@@ -85,7 +86,7 @@ const Form = ({ isOpen, setIsOpen }) => {
       >
         <Toaster />
         <div className="">
-          <div className="w-full max-w-xs  mx-auto mt-16">
+          <div className="w-full max-w-xs   mx-auto mt-10 ">
             <OutsideClickHandler
               onOutsideClick={() => {
                 setIsOpen(!isOpen);

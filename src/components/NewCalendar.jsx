@@ -112,7 +112,7 @@ const NewCalendar = () => {
             <button
               onClick={() => handleChangeMonth(false)}
               className="btn btn-circle"
-              disabled={monthsPassed <= -2}
+              disabled={monthsPassed <= -1}
             >
               <svg
                 viewBox="0 0 1024 1024"
@@ -128,7 +128,7 @@ const NewCalendar = () => {
             <button
               className="btn btn-circle"
               onClick={() => handleChangeMonth(true)}
-              disabled={monthsPassed >= 2}
+              disabled={monthsPassed >= 1}
             >
               <svg
                 viewBox="0 0 1024 1024"

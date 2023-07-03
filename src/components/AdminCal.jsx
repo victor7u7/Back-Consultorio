@@ -5,6 +5,7 @@ import { useToggleList } from "../Hooks/Lists";
 import ModalTime from "./ModalTime";
 import ModalChanges from "./ModalChanges";
 import { toast } from "react-hot-toast";
+import OutsideClickHandler from "react-outside-click-handler";
 
 const myDays = [
   "Domingo",
@@ -110,7 +111,7 @@ const AdminCal = () => {
   }, [dates]);
   return (
     <div className="bg-gray-800 h-screen ">
-      <div className="bg-gray-900 rounded-xl pt-28 text-white lg:p-5  w-full lg:w-1/2 mx-auto">
+      <div className="bg-gray-900 rounded-xl pt-28 text-white   w-full lg:w-1/2 mx-auto">
         <div className="mb-10 text-center font-bold text-2xl">
           <div className="flex  justify-around items-center">
             <button
@@ -221,6 +222,7 @@ const AdminCal = () => {
             Guardar cambios
           </button>
         </div>
+
         <ModalTime
           toggleList={toggleList}
           open={openClock}

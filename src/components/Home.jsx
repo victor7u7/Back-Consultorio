@@ -29,7 +29,7 @@ const Home = () => {
           <h1 className="titulo mt-10  text-white font-bold text-6xl">
             Dra. Mayra Lopez Benitez
           </h1>
-          <p className="formato text-white w-1/3 mx-auto text-xl">
+          <p className="formato text-white max-w-lg mx-auto text-xl">
             Porque nos preocupamos por tu salud ofrecemos un servicio de
             calidad, para que puedas seguir sonriendo , agenda tu cita.
           </p>
@@ -64,7 +64,7 @@ const Home = () => {
           </div>
         </div>
 
-        <p className="formato">
+        <p className="formato max-w-lg mx-auto p-4">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nostrum
           veritatis adipisci natus maxime. Ullam ipsa tenetur iure corrupti in
           maxime magni voluptatem debitis veritatis, architecto vero sint est
@@ -219,8 +219,17 @@ const Home = () => {
           maiores odit accusantium asperiores ea repellendus! Aliquid in rerum
           temporibus?
         </p> */}
-        <div className="mt-[500px] flex w-3/4 justify-center mx-auto flex-wrap">
-          <div className="w-full lg:w-1/2">
+        <div className="mt-[500px] flex  sm:w-[800px] justify-center mx-auto flex-wrap">
+          <div className="w-1/2  text-left">
+            <h1 id="ubicacion" className="titulo">
+              Ubicacion
+            </h1>
+            <p className="formato-ubicacion">
+              <strong>Av. Del rastro 256.</strong> Colonia San Rafael. Toluca
+              México
+            </p>
+          </div>
+          <div className="w-full">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d489.63443797482705!2d-99.62922459507178!3d19.321516115291477!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d275fc6fcdd857%3A0x66716d8a7a3b1078!2sConsultorio%20Dental%20Dra.%20Mayra%20L%C3%B3pez%20Ben%C3%ADtez!5e1!3m2!1ses!2smx!4v1669864533219!5m2!1ses!2smx"
               width="100%"
@@ -230,15 +239,6 @@ const Home = () => {
               loading="lazy"
               // referrerpolicy="no-referrer-when-downgrade"
             ></iframe>
-          </div>
-          <div className="w-1/2  text-left">
-            <h1 id="ubicacion" className="titulo">
-              Ubicacion
-            </h1>
-            <p className="formato-ubicacion">
-              <strong>Av. Del rastro 256.</strong> Colonia San Rafael. Toluca
-              México
-            </p>
           </div>
         </div>
       </main>
