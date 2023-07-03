@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isOpenAuth, setIsOpenAuth] = useState(true);
+  const navigate = useNavigate();
 
   let [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
@@ -28,12 +29,14 @@ export const AuthProvider = ({ children }) => {
           setUser(res.data.user);
           //   setIsOpenAuth(false);
           localStorage.setItem("user", JSON.stringify(res.data.user));
-          window.location.href = `${host}/admin-calendar`;
+          // window.location.href = `/admin-calendar`;
+          navigate("/admin-calendar");
         }
         if (res.status === 200) {
           setUser(res.data.user);
           localStorage.setItem("user", JSON.stringify(res.data.user));
-          window.location.href = `${host}/calendar`;
+          // window.location.href = `/calendar`;
+          navigate("/calendar");
         }
         // setIsOpen(false);
         console.log(res);
