@@ -11,10 +11,7 @@ import img3 from "../media/img3.jpg";
 import img4 from "../media/img4.jpg";
 import img5 from "../media/img5.jpg";
 import img6 from "../media/img6.jpg";
-import Form from "./Form";
-import { useState } from "react";
 import bg from "../media/consul.jpg";
-import NavBar from "./NavBar";
 const swiperImages = [img1, img2, img3, img4, img5, img6];
 const Home = () => {
   return (
