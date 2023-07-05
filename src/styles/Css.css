@@ -119,19 +119,20 @@ dialog::backdrop {
 /* cartas */
 
 .imgEstetica {
-  background-image: url(consultorioFotos/estetica.jpg);
+  /* background-image: url(consultorioFotos/estetica.jpg); */
+  background-image: url(../../consultorioFotos/estetica.jpg);
 }
 .imgProtesis {
-  background-image: url(consultorioFotos/protesis.jpg);
+  background-image: url(../../consultorioFotos/protesis.jpg);
 }
 .imgExodoncias {
-  background-image: url(consultorioFotos/exodoncias.jpg);
+  background-image: url(../../consultorioFotos/exodoncias.jpg);
 }
 .imgOrtodoncia {
-  background-image: url(consultorioFotos/ortodoncia.jpg);
+  background-image: url(../../consultorioFotos/ortodoncia.jpg);
 }
 .imgLimpiezaB {
-  background-image: url(consultorioFotos/limpieza.jpg);
+  background-image: url(../../consultorioFotos/limpieza.jpg);
 }
 
 .container-card {
