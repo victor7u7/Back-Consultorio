@@ -31,7 +31,8 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5173",
-    "https://consultorio-production.up.railway.app",
+    # "https://consultorio-production.up.railway.app",
+    "https://back-consultorio-production.up.railway.app/",
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 SITE = "http://127.0.0.1:5173"
