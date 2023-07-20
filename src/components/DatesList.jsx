@@ -5,6 +5,7 @@ import ModalNotes from "./ModalNotes";
 import { useToggleList } from "../Hooks/Lists";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import OutsideClickHandler from "react-outside-click-handler";
 
 const DatesList = () => {
   const [dates, setDates] = useState([]);
@@ -56,26 +57,29 @@ const DatesList = () => {
   }, []);
 
   return (
-    <div className="h-screen bg-gray-900 ">
-      <div
-        className={`absolute ${
-          viewUserInfo ? "top-24" : "-top-24"
-        } border left-1/2 transform -translate-x-1/2 transition-all   z-10 bg-slate-900 p-5 rounded-md`}
-      >
-        <div>
-          Datos del paciente{" "}
-          <span className="font-bold">{userData.pacient__username}</span>
+    <div className="h-screen bg-gray-900">
+      <OutsideClickHandler onOutsideClick={() => setViewUserInfo(false)}>
+        <div
+          className={`fixed ${
+            viewUserInfo ? "top-96" : "-top-24"
+          } border left-1/2 transform -translate-x-1/2 transition-all   z-10 bg-slate-900 p-5 rounded-md`}
+        >
+          <div>
+            Datos del paciente{" "}
+            <span className="font-bold">{userData.pacient__username}</span>
+          </div>
+          <div>Correo: {userData.pacient__email}</div>
+          <div>Celular: {userData.pacient__celular} </div>
+          <div></div>
         </div>
-        <div>Correo: {userData.pacient__email}</div>
-        <div>Celular: {userData.pacient__celular} </div>
-        <div></div>
-      </div>
-      <div className="pt-28">
+      </OutsideClickHandler>
+
+      <div className="pt-28 grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center w-full lg:w-1/2 mx-auto">
         {dates &&
           dates.map((date, i) => (
             <div
               key={i}
-              className="max-w-lg mb-4 p-3 mx-auto rounded-md flex justify-evenly items-center gap-5 bg-slate-600"
+              className="max-w-lg mb-4 p-3  mx-auto rounded-md flex  justify-evenly items-center gap-5 bg-slate-600"
             >
               <div
                 className="flex flex-col  px-3 items-center"
@@ -151,11 +155,11 @@ const DatesList = () => {
               </div>
             </div>
           ))}
-        <div className="text-center">
-          <button onClick={getObjectsSelected} className="btn btn-success">
-            Confirmar
-          </button>
-        </div>
+      </div>
+      <div className="text-center">
+        <button onClick={getObjectsSelected} className="btn btn-success">
+          Confirmar
+        </button>
       </div>
 
       <ModalNotes

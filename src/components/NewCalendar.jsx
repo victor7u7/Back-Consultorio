@@ -14,6 +14,7 @@ const myDays = [
 ];
 const NewCalendar = () => {
   const currentDate = new Date();
+  const [currectDay, setCurrectDay] = useState();
   const currentYear = currentDate.getFullYear();
   const [monthsPassed, setMonthsPassed] = useState(0);
   const currentMonth = currentDate.getMonth() + 1; // Months are zero-based, so add 1 to get the correct month
@@ -29,7 +30,6 @@ const NewCalendar = () => {
   const [monthName, setMonthName] = useState("n");
   function getFirstDayOfMonth(year, month) {
     const date = new Date(year, month, 1);
-    // console.log(date.getDate());
     const lastDayOfMonth = new Date(year, month + 1, 0);
     const numDaysInMonth = lastDayOfMonth.getDate();
     // console.log(numDaysInMonth);
@@ -91,8 +91,7 @@ const NewCalendar = () => {
 
     return formattedDate;
   };
-  useEffect(() => {
-    getFirstDayOfMonth(dates.currentYear, dates.currentMonth - 1);
+  const getAvailableDates = () => {
     console.log(dates.currentYear, dates.currentMonth);
     axios
       .get(`${api}/api/able/${2023}/${dates.currentMonth}`)
@@ -103,10 +102,18 @@ const NewCalendar = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+  useEffect(() => {
+    getFirstDayOfMonth(dates.currentYear, dates.currentMonth - 1);
+    getAvailableDates();
+    setCurrectDay(currentDate.getDate());
   }, [dates]);
   return (
     <div className="bg-gray-800 h-screen ">
       <div className="bg-gray-900 rounded-xl pt-28 text-white  w-full lg:w-1/2 mx-auto">
+        <div className="text-white text-center font-bold italic text-lg">
+          {currentYear}
+        </div>
         <div className="mb-10 text-center font-bold text-2xl">
           <div className="flex  justify-around items-center">
             <button
@@ -160,13 +167,15 @@ const NewCalendar = () => {
             <div
               key={key}
               onClick={() => getDayTimes(day)}
-              className={`${
+              className={`
+              ${day === currectDay && monthsPassed === 0 && "bg-blue-500"}
+              ${
                 isDayAvailable(day)
                   ? daySelected === day
                     ? "bg-teal-500 text-black rounded-full"
                     : "border border-teal-500 rounded-md cursor-pointer hover:bg-teal-700"
                   : "border border-gray-600 "
-              } p-3 text-center  transition-all duration-500 rounded-md`}
+              }  p-3 text-center  transition-all duration-500 rounded-md`}
             >
               {day}
             </div>
@@ -206,6 +215,7 @@ const NewCalendar = () => {
             month: dates.currentMonth,
             day: daySelected,
           }}
+          getTimes={getAvailableDates}
           date={generateHumanDate()}
         />
       </div>

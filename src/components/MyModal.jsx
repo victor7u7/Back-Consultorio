@@ -17,7 +17,7 @@ const customStyles = {
   },
   overlay: { zIndex: 999, backgroundColor: "#18191ab1" },
 };
-const MyModal = ({ date, hour, noHumanDate, isOpen, setIsOpen }) => {
+const MyModal = ({ date, hour, noHumanDate, isOpen, setIsOpen, getTimes }) => {
   const { user } = useContext(AuthContext);
 
   const sendDate = () => {
@@ -43,6 +43,7 @@ const MyModal = ({ date, hour, noHumanDate, isOpen, setIsOpen }) => {
         ariaHideApp={false}
         // onAfterOpen={afterOpenModal}
         // onRequestClose={closeModal}
+
         style={customStyles}
         contentLabel="Example Modal"
       >
@@ -54,7 +55,13 @@ const MyModal = ({ date, hour, noHumanDate, isOpen, setIsOpen }) => {
           <button className="btn btn-error" onClick={() => setIsOpen(false)}>
             Cancelar
           </button>
-          <button className="btn btn-success" onClick={sendDate}>
+          <button
+            className="btn btn-success"
+            onClick={() => {
+              sendDate();
+              getTimes();
+            }}
+          >
             Aceptar
           </button>
         </div>
